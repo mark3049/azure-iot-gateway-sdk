@@ -6,9 +6,9 @@ Raspberry Pi GPIO module
 * Output Voice To Audio Jack (TTS)
 
 ##Module Json Configure
-More detail please see the gpio.json file.
+More detail please see the [gpio.json](gpio.json) file.
  
-##command {"Latch":0}
+##run example
 
 ```
 cd ./build
