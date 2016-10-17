@@ -1,0 +1,60 @@
+{
+    "modules" :
+    [
+        {
+            "module name" : "IotHub",
+            "module path" : "./modules/iothub/libiothub_hl.so",
+            "args" :
+            {
+                "IoTHubName" : "<<your hub name>>",
+                "IoTHubSuffix" : "azure-devices.net",
+                "Transport" : "AMQP"
+            }
+        },
+        {
+            "module name":"GPIO13",
+            "module path" : "./modules/pi_gpio/libpi_gpio_hl.so",
+            "args":
+            {
+            	"deviceId"   : "<<your device id>>",
+            	"deviceKey"  : "<<device key>>",
+            	"period"	 : 15,
+            	"TTS"	 :	true,
+            	"azure-cs-key" : "<<azure text to speech key >>",
+            	"configure" :
+            	[
+            		{
+            			"Name":"Window",
+            			"Pin": 13,
+            			"Direction":"Input"
+            		},
+            		{
+            			"Name":"Door",
+            			"Pin" :19,
+            			"Direction":"Input"
+            		},
+            		{
+            			"Name":"Latch",
+            			"Pin" : 16,
+            			"Direction":"Output",
+            			"Preset":"HI"
+            		}
+            	]
+
+            }
+        },
+        {
+            "module name":"Logger",
+            "module path" : "./modules/logger/liblogger_hl.so",
+            "args":
+            {
+                "filename":"deviceCloudUploadGatewaylog.log"
+            }
+        }
+    ],
+    "links" : [
+        { "source" : "*", "sink" : "Logger" },
+        { "source" : "GPIO13", "sink" : "IotHub" },
+        { "source" : "IotHub", "sink" : "GPIO13" }
+    ]
+}
