@@ -19,3 +19,5 @@ add_subdirectory(iothub)
 add_subdirectory(logger)
 add_subdirectory(hello_world)
 add_subdirectory(azure_functions)
+add_subdirectory(bcm2835_gpio)
+
