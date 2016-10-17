@@ -1,0 +1,64 @@
+{
+    "modules" :
+    [ 
+        {
+            "module name":"Logger",
+            "module path" : "./modules/logger/liblogger_hl.so",
+            "args":
+            {
+                "filename":"deviceCloudUploadGatewaylog.log"
+            }
+        },
+        {
+            "module name":"GPIO13",
+            "module path" : "./modules/bcm2835_gpio/libbcm2835_gpio_hl.so",
+            "args":
+            {
+            	"deviceId"   : "<<device id>>",
+            	"deviceKey"  : "<<device key>>",
+            	"period"	 : 60,
+            	"TTS"	 :	true,
+            	"azure-cs-key" : "<<azure text to speech key>>",
+
+            	"configure" :
+            	[
+            		{
+            			"Name":"Window",
+            			"Pin": 13,
+            			"Direction":"Input"
+            		},
+            		{
+            			"Name":"Door",
+            			"Pin" : 19,
+            			"Direction":"Input"
+            		},
+            		{
+            			"Name":"Latch",
+            			"Pin" : 16,
+            			"Direction":"Output",
+            			"Preset":"HI"
+            		}
+            	]
+
+            }
+        },
+        {
+            "module name":"RABBITMQ",
+            "module path" : "./modules/rabbitmq/librabbitmq_hl.so",
+            "args":
+            {
+            	"server"   : "<<RabbitMQ Host>>",
+            	"vhost"  : "<<vhost>>",
+            	"user_name"	 :"<<user name>>",
+            	"passwd" : "<<passwd>>",
+            	"backend" : "../modules/rabbitmq/python/backend.py"
+
+            }
+        }
+    ],
+    "links" : [
+        { "source" : "*", "sink" : "Logger" },
+        { "source" : "GPIO13", "sink" : "RABBITMQ" },
+        { "source" : "RABBITMQ", "sink" : "GPIO13" }
+    ]
+}
